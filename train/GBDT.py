@@ -29,8 +29,8 @@ for row in file_in_y:
 y = np.array(y)
 y = np.ravel(y)
 
-parameters = {'max_depth': range(5, 50, 5), 'n_estimators':[100, 200, 400, 800, 1000, 1500, 2000],
-              'max_features': ["sqrt", "log2", "auto"], 'learning_rate': [0.1, 0.05, 0.01, 0.005, 0.001]}
+parameters = {'max_depth': range(5, 50, 5), 'n_estimators':[100, 200, 400, 800, 1000],
+              'max_features': ["sqrt", "log2", "auto"], 'learning_rate': [0.1, 0.05, 0.01]}
 GBRT = ensemble.GradientBoostingRegressor()
 clf = grid_search.GridSearchCV(GBRT, parameters, cv = 10)
 
