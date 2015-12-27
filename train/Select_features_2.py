@@ -42,7 +42,7 @@ del Unlabeled_X_1_new
 del Unlabeled_X_2_new
 train_X = np.concatenate((Labeled_X_new, Unlabeled_X_new), axis = 0)
 train_y = np.concatenate((a_Labeled_y, Unlabeled_y_1, Unlabeled_y_2), axis = 0)
-label_spread = LabelSpreading('knn')
+label_spread = LabelSpreading('knn', n_neighbors= 100)
 t1 = time.time()
 label_spread.fit(train_X, train_y)
 t2 = time.time()
@@ -51,12 +51,13 @@ t3 = time.time()
 GBRT2 = ensemble.GradientBoostingRegressor(n_estimators= 200, max_depth = 50, max_features= 'sqrt')
 GBRT2.fit(train_X, label_spread.transduction_)
 t4 = time.time()
+print t4-t3
 test_X = pd.read_csv(os.path.join(data_path, 'test_x.csv'))
 uids = test_X['uid']
 del test_X['uid']
-out= GBRT2.predict(test_X)
+out= GBRT2.predict(model.transform(test_X))
 
-file_predict = codecs.open('../predict/predict.csv', 'w', 'utf-8')
+file_predict = codecs.open('../predict/predict_1.csv', 'w', 'utf-8')
 csv_writer = csv.writer(file_predict)
 csv_writer.writerow(['"uid"', '"score"'])
 for i in xrange(len(uids)):
